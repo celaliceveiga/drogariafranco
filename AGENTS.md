@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Drogaria Franco architecture
+- Storefront shell (header/footer/cart drawer) is rendered in __root.tsx for every path except /admin*, which renders its own sidebar layout; keeps one route tree without a pathless layout clashing with index.
+- Product prices are computed via src/lib/pricing.ts (promo window, installments); always reuse it so cards, cart and future server checkout agree.
+- Storage buckets are private (workspace blocks public buckets); product photos are stored with long-lived signed URLs in product_images.url.
+- Admin access = row in user_roles checked with has_role(); the first account to sign up becomes admin via the handle_new_user trigger.

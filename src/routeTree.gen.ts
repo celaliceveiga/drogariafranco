@@ -17,9 +17,11 @@ import { Route as ContaRouteImport } from './routes/conta'
 import { Route as QuemSomosRouteImport } from './routes/quem-somos'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminCategoriasRouteImport } from './routes/admin.categorias'
 import { Route as CategoriaSlugRouteImport } from './routes/categoria.$slug'
 import { Route as ProdutoSlugRouteImport } from './routes/produto.$slug'
 import { Route as AdminProdutosIndexRouteImport } from './routes/admin.produtos.index'
+import { Route as AdminProdutosIdRouteImport } from './routes/admin.produtos.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -61,6 +63,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCategoriasRoute = AdminCategoriasRouteImport.update({
+  id: '/categorias',
+  path: '/categorias',
+  getParentRoute: () => AdminRoute,
+} as any)
 const CategoriaSlugRoute = CategoriaSlugRouteImport.update({
   id: '/categoria/$slug',
   path: '/categoria/$slug',
@@ -76,6 +83,11 @@ const AdminProdutosIndexRoute = AdminProdutosIndexRouteImport.update({
   path: '/produtos/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminProdutosIdRoute = AdminProdutosIdRouteImport.update({
+  id: '/produtos/$id',
+  path: '/produtos/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -85,9 +97,11 @@ export interface FileRoutesByFullPath {
   '/conta': typeof ContaRoute
   '/quem-somos': typeof QuemSomosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin/categorias': typeof AdminCategoriasRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
   '/produto/$slug': typeof ProdutoSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/produtos/$id': typeof AdminProdutosIdRoute
   '/admin/produtos/': typeof AdminProdutosIndexRoute
 }
 export interface FileRoutesByTo {
@@ -97,9 +111,11 @@ export interface FileRoutesByTo {
   '/conta': typeof ContaRoute
   '/quem-somos': typeof QuemSomosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin/categorias': typeof AdminCategoriasRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
   '/produto/$slug': typeof ProdutoSlugRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/produtos/$id': typeof AdminProdutosIdRoute
   '/admin/produtos': typeof AdminProdutosIndexRoute
 }
 export interface FileRoutesById {
@@ -111,9 +127,11 @@ export interface FileRoutesById {
   '/conta': typeof ContaRoute
   '/quem-somos': typeof QuemSomosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin/categorias': typeof AdminCategoriasRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
   '/produto/$slug': typeof ProdutoSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/produtos/$id': typeof AdminProdutosIdRoute
   '/admin/produtos/': typeof AdminProdutosIndexRoute
 }
 export interface FileRouteTypes {
@@ -126,9 +144,11 @@ export interface FileRouteTypes {
     | '/conta'
     | '/quem-somos'
     | '/reset-password'
+    | '/admin/categorias'
     | '/categoria/$slug'
     | '/produto/$slug'
     | '/admin/'
+    | '/admin/produtos/$id'
     | '/admin/produtos/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -138,9 +158,11 @@ export interface FileRouteTypes {
     | '/conta'
     | '/quem-somos'
     | '/reset-password'
+    | '/admin/categorias'
     | '/categoria/$slug'
     | '/produto/$slug'
     | '/admin'
+    | '/admin/produtos/$id'
     | '/admin/produtos'
   id:
     | '__root__'
@@ -151,9 +173,11 @@ export interface FileRouteTypes {
     | '/conta'
     | '/quem-somos'
     | '/reset-password'
+    | '/admin/categorias'
     | '/categoria/$slug'
     | '/produto/$slug'
     | '/admin/'
+    | '/admin/produtos/$id'
     | '/admin/produtos/'
   fileRoutesById: FileRoutesById
 }
@@ -227,6 +251,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/categorias': {
+      id: '/admin/categorias'
+      path: '/categorias'
+      fullPath: '/admin/categorias'
+      preLoaderRoute: typeof AdminCategoriasRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/categoria/$slug': {
       id: '/categoria/$slug'
       path: '/categoria/$slug'
@@ -248,16 +279,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProdutosIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/produtos/$id': {
+      id: '/admin/produtos/$id'
+      path: '/produtos/$id'
+      fullPath: '/admin/produtos/$id'
+      preLoaderRoute: typeof AdminProdutosIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminCategoriasRoute: typeof AdminCategoriasRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminProdutosIdRoute: typeof AdminProdutosIdRoute
   AdminProdutosIndexRoute: typeof AdminProdutosIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminCategoriasRoute: AdminCategoriasRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminProdutosIdRoute: AdminProdutosIdRoute,
   AdminProdutosIndexRoute: AdminProdutosIndexRoute,
 }
 
