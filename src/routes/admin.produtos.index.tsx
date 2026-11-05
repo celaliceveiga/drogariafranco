@@ -60,7 +60,7 @@ function ProductsAdmin() {
       .insert({ ...rest, name: `${p.name} (cópia)`, slug: `${p.slug}-copia-${Date.now().toString(36)}`, status: "rascunho" })
       .select("id")
       .single();
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     const { data: cats } = await supabase.from("product_categories").select("category_id").eq("product_id", id);
     if (cats?.length) await supabase.from("product_categories").insert(cats.map((c) => ({ product_id: np.id, category_id: c.category_id })));
     if (product_images.length) await supabase.from("product_images").insert(product_images.map((i) => ({ product_id: np.id, url: i.url, sort_order: i.sort_order })));
@@ -116,7 +116,7 @@ function ProductsAdmin() {
                     <span className="line-clamp-2 font-semibold">{p.name}</span>
                   </Link>
                 </td>
-                <td className="p-3"><QuickNum value={Number(p.price)} onSave={(v) => quick(p.id, { price: v })} money /></td>
+                <td className="p-3"><QuickNum value={Number(p.price)} onSave={(v) => quick(p.id, { price: v ?? 0 })} money /></td>
                 <td className="p-3"><QuickNum value={p.promo_price == null ? null : Number(p.promo_price)} onSave={(v) => quick(p.id, { promo_price: v })} money /></td>
                 <td className="p-3"><QuickNum value={p.stock} onSave={(v) => quick(p.id, { stock: v ?? 0 })} /></td>
                 <td className="p-3">

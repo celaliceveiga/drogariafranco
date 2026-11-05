@@ -176,7 +176,7 @@ function Newsletter() {
           className="mt-4 grid gap-3 md:grid-cols-[1fr_1fr_auto]"
           onSubmit={async (e) => {
             e.preventDefault();
-            if (!consent) return toast.error("Aceite receber comunicações para continuar.");
+            if (!consent) return void toast.error("Aceite receber comunicações para continuar.");
             setBusy(true);
             const { error } = await supabase.from("newsletter_subscribers").insert({ name, email, consent });
             setBusy(false);

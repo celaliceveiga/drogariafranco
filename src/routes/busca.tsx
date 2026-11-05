@@ -6,10 +6,10 @@ import { discountPercent } from "@/lib/pricing";
 import { ProductGrid } from "@/components/store/ProductGrid";
 
 export const Route = createFileRoute("/busca")({
-  validateSearch: (s: Record<string, unknown>) => ({
-    q: typeof s.q === "string" ? s.q : "",
-    ofertas: s.ofertas === true || s.ofertas === "true" ? true : undefined,
-  }),
+  validateSearch: (s: Record<string, unknown>): { q: string; ofertas?: boolean } => {
+    const q = typeof s["q"] === "string" ? (s["q"] as string) : "";
+    return s["ofertas"] === true || s["ofertas"] === "true" ? { q, ofertas: true } : { q };
+  },
   head: () => ({
     meta: [
       { title: "Buscar produtos | Drogaria Franco" },

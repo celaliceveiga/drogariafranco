@@ -68,12 +68,12 @@ function ProductForm() {
     const next = [...imgs];
     const j = i + d;
     if (j < 0 || j >= next.length) return;
-    [next[i], next[j]] = [next[j], next[i]];
+    [next[i], next[j]] = [next[j]!, next[i]!];
     setImgs(next);
   }
 
   async function save() {
-    if (!f.name || !f.slug) return toast.error("Nome e slug são obrigatórios");
+    if (!f.name || !f.slug) return void toast.error("Nome e slug são obrigatórios");
     setBusy(true);
     const payload = {
       ...f,
@@ -89,7 +89,7 @@ function ProductForm() {
     const res = isNew
       ? await supabase.from("products").insert(payload).select("id").single()
       : await supabase.from("products").update(payload).eq("id", id).select("id").single();
-    if (res.error) { setBusy(false); return toast.error(res.error.message); }
+    if (res.error) { setBusy(false); return void toast.error(res.error.message); }
     const pid = res.data.id;
     await supabase.from("product_categories").delete().eq("product_id", pid);
     if (catIds.length) await supabase.from("product_categories").insert(catIds.map((c) => ({ product_id: pid, category_id: c })));

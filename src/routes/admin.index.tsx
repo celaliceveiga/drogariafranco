@@ -41,7 +41,7 @@ function Dashboard() {
   );
 }
 
-function Card({ icon: I, label, value }: { icon: typeof Package; label: string; value?: number }) {
+function Card({ icon: I, label, value }: { icon: typeof Package; label: string; value?: number | undefined }) {
   return (
     <div className="rounded-xl border bg-background p-5">
       <I className="h-5 w-5 text-primary" />

@@ -20,7 +20,7 @@ function CategoriesAdmin() {
     if (!name.trim()) return;
     const siblings = cats.filter((c) => (c.parent_id ?? "") === parent);
     const { error } = await supabase.from("categories").insert({ name, slug: slugify(name), parent_id: parent || null, sort_order: siblings.length + 1 });
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     setName("");
     refresh();
   }
