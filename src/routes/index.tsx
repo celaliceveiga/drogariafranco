@@ -56,7 +56,7 @@ function BannerCarousel() {
                 <img src={b.image_desktop ?? ""} alt={b.title ?? "Banner"} className="aspect-[5/2.4] w-full object-cover md:aspect-[5/1.6]" loading={i === 0 ? "eager" : "lazy"} />
               </picture>
               <div className="absolute inset-0 flex items-center">
-                <div className="mx-auto w-full max-w-7xl px-6">
+                <div className="mx-auto w-full max-w-7xl px-6 md:px-16">
                   <div className="max-w-xs md:max-w-md">
                     <h2 className="text-2xl font-extrabold text-secondary md:text-5xl">{b.title}</h2>
                     <p className="mt-2 text-sm text-secondary md:text-lg">{b.subtitle}</p>
