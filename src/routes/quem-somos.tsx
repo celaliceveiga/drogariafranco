@@ -113,11 +113,11 @@ function About() {
           </div>
         </div>
         <img
-          src="/images/quem-somos-fachada.jpg"
-          alt="Fachada da Drogaria Franco, com o letreiro e o slogan Compromisso com sua saúde"
-          width={1056}
-          height={866}
-          className="aspect-[4/3] w-full rounded-3xl object-cover shadow-card md:aspect-[6/5]"
+          src="/images/quem-somos-marca.jpg"
+          alt="Marca da Drogaria Franco com o slogan Compromisso com sua saúde"
+          width={1920}
+          height={1080}
+          className="aspect-video w-full rounded-3xl object-cover shadow-card"
         />
       </section>
 
@@ -138,12 +138,12 @@ function About() {
       <section className="mx-auto max-w-7xl px-4 py-6">
         <div className="grid overflow-hidden rounded-2xl bg-primary-soft md:grid-cols-2 md:items-center">
           <img
-            src="/images/quem-somos-produtos.jpg"
-            alt="Dermocosméticos: creme, frasco, sérum e bisnaga sobre uma bancada"
-            width={888}
-            height={398}
+            src="/images/quem-somos-dermocosmeticos.jpg"
+            alt="Dermocosméticos de marcas como CeraVe, Cetaphil, Murad e Aquaphor"
+            width={1920}
+            height={1364}
             loading="lazy"
-            className="h-48 w-full object-cover md:h-full md:min-h-64"
+            className="h-56 w-full object-cover md:h-80"
           />
           <div className="p-6 md:p-10">
             <h2 className="border-l-4 border-primary pl-4 text-2xl font-extrabold leading-tight text-secondary md:pl-6 md:text-3xl">
