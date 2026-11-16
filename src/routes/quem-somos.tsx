@@ -139,7 +139,7 @@ function About() {
         <div className="grid overflow-hidden rounded-2xl bg-primary-soft md:grid-cols-2 md:items-center">
           <img
             src="/images/quem-somos-dermocosmeticos.jpg"
-            alt="Dermocosméticos: frasco com válvula, bisnaga, pote de creme, sérum e protetor"
+            alt="Dermocosméticos: pote de creme, frasco com válvula, sérum e bisnaga sobre uma bancada"
             width={1920}
             height={1072}
             loading="lazy"
