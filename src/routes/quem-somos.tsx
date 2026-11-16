@@ -143,7 +143,7 @@ function About() {
             width={1920}
             height={1072}
             loading="lazy"
-            className="h-56 w-full object-cover md:h-80"
+            className="h-56 w-full object-cover object-bottom md:h-80"
           />
           <div className="p-6 md:p-10">
             <h2 className="border-l-4 border-primary pl-4 text-2xl font-extrabold leading-tight text-secondary md:pl-6 md:text-3xl">
