@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { PRODUCT_COLS, type StoreProduct } from "@/lib/store-data";
 import { discountPercent } from "@/lib/pricing";
 import { ProductGrid } from "@/components/store/ProductGrid";
+import { MEDICINES_ENABLED, sellable } from "@/lib/store-mode";
 
 export const Route = createFileRoute("/busca")({
   validateSearch: (s: Record<string, unknown>): { q: string; ofertas?: boolean } => {
@@ -13,7 +14,7 @@ export const Route = createFileRoute("/busca")({
   head: () => ({
     meta: [
       { title: "Buscar produtos | Drogaria Franco" },
-      { name: "description", content: "Busque medicamentos, genéricos e dermocosméticos por nome, marca ou princípio ativo." },
+      { name: "description", content: MEDICINES_ENABLED ? "Busque medicamentos, genéricos e dermocosméticos por nome, marca ou princípio ativo." : "Busque dermocosméticos, cosméticos e itens de higiene por nome ou marca." },
       { property: "og:title", content: "Buscar | Drogaria Franco" },
       { property: "og:description", content: "Encontre o que precisa na Drogaria Franco." },
     ],
@@ -37,7 +38,7 @@ function SearchPage() {
       if (ids) query = query.in("id", ids);
       const { data, error } = await query;
       if (error) throw error;
-      let list = data as unknown as StoreProduct[];
+      let list = sellable(data as unknown as StoreProduct[]);
       if (ids) list = ids.map((id) => list.find((p) => p.id === id)!).filter(Boolean);
       if (ofertas) list = list.filter((p) => discountPercent(p) > 0);
       return list;

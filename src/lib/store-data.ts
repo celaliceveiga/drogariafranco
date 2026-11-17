@@ -1,5 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { MEDICINES_ENABLED, sellable } from "@/lib/store-mode";
 
 export const PRODUCT_COLS =
   "id,name,slug,brand,kind,sale_class,is_generic,active_ingredient,presentation,price,promo_price,promo_start,promo_end,stock,min_stock,tags,sold_count,status,product_images(url,alt,sort_order)";
@@ -84,6 +85,7 @@ export function showcaseProductsQuery(sc: { id: string; rule: string; rule_value
     queryKey: ["showcase-products", sc.id],
     queryFn: async () => {
       let q = supabase.from("products").select(PRODUCT_COLS).eq("status", "ativo").limit(12);
+      if (!MEDICINES_ENABLED) q = q.neq("kind", "medicamento").eq("sale_class", "livre");
       if (sc.rule === "manual") q = q.in("id", sc.product_ids.length ? sc.product_ids : ["00000000-0000-0000-0000-000000000000"]);
       else if (sc.rule === "tag" && sc.rule_value) q = q.contains("tags", [sc.rule_value]);
       else if (sc.rule === "generic") q = q.eq("is_generic", true).order("price");
@@ -102,7 +104,7 @@ export function productsByIdsQuery(ids: string[]) {
       if (!ids.length) return [];
       const { data, error } = await supabase.from("products").select(PRODUCT_COLS).in("id", ids);
       if (error) throw error;
-      const list = data as unknown as StoreProduct[];
+      const list = sellable(data as unknown as StoreProduct[]);
       return ids.map((id) => list.find((p) => p.id === id)).filter(Boolean) as StoreProduct[];
     },
   });

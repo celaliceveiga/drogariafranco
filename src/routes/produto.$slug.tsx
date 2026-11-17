@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { MEDICINES_ENABLED, isMedicine } from "@/lib/store-mode";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Minus, Plus, ShoppingCart, Store, AlertTriangle, FileText } from "lucide-react";
@@ -40,7 +41,7 @@ function ProductPage() {
   }, [p]);
 
   if (isLoading) return <div className="mx-auto max-w-7xl px-4 py-10"><div className="h-96 animate-pulse rounded-xl bg-muted" /></div>;
-  if (!p) return <div className="mx-auto max-w-7xl px-4 py-20 text-center"><h1 className="text-xl font-bold">Produto não encontrado</h1><Link to="/" className="text-primary-strong underline">Voltar</Link></div>;
+  if (!p || (!MEDICINES_ENABLED && isMedicine(p))) return <div className="mx-auto max-w-7xl px-4 py-20 text-center"><h1 className="text-xl font-bold">Produto não encontrado</h1><Link to="/" className="text-primary-strong underline">Voltar</Link></div>;
 
   const imgs = [...p.product_images].sort((a, b) => a.sort_order - b.sort_order);
   const price = effectivePrice(p);

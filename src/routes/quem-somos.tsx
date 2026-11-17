@@ -15,6 +15,7 @@ import {
   Users,
 } from "lucide-react";
 import { PENDING, settingsQuery } from "@/lib/store-data";
+import { MEDICINES_ENABLED } from "@/lib/store-mode";
 
 export const Route = createFileRoute("/quem-somos")({
   head: () => ({
@@ -55,11 +56,15 @@ function About() {
     { icon: CalendarDays, k: "Fundação", v: s?.founded },
     { icon: MapPin, k: "Endereço", v: s?.address },
     { icon: Table, k: "Atividade (CNAE)", v: s?.cnae },
-    {
-      icon: Stethoscope,
-      k: "Farmacêutico(a) responsável",
-      v: s?.pharmacist ? `${s.pharmacist} — CRF ${s.crf ?? PENDING}` : null,
-    },
+    ...(MEDICINES_ENABLED
+      ? [
+          {
+            icon: Stethoscope,
+            k: "Farmacêutico(a) responsável",
+            v: s?.pharmacist ? `${s.pharmacist} — CRF ${s.crf ?? PENDING}` : null,
+          },
+        ]
+      : []),
   ];
   return (
     <>
@@ -99,9 +104,9 @@ function About() {
               tempo.
             </p>
             <p>
-              Por isso, reunimos medicamentos, produtos de saúde, higiene, beleza e dermocosméticos
-              cuidadosamente selecionados, sempre valorizando a qualidade, a segurança e as
-              necessidades de quem confia em nós.
+              Por isso, reunimos {MEDICINES_ENABLED ? "medicamentos, " : ""}produtos de saúde,
+              higiene, beleza e dermocosméticos cuidadosamente selecionados, sempre valorizando a
+              qualidade, a segurança e as necessidades de quem confia em nós.
             </p>
             <p>
               Nossa essência está na combinação entre tradição, atendimento humanizado e compromisso
@@ -149,8 +154,8 @@ function About() {
               para o seu dia a dia.
             </h2>
             <p className="mt-4 pl-5 md:pl-7 md:text-lg">
-              Uma seleção completa de medicamentos, higiene, cuidados pessoais e dermocosméticos,
-              com a qualidade e a confiança que você já conhece.
+              Uma seleção completa de {MEDICINES_ENABLED ? "medicamentos, " : ""}higiene, cuidados
+              pessoais e dermocosméticos, com a qualidade e a confiança que você já conhece.
             </p>
           </div>
         </div>

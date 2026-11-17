@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Clock, CreditCard, Lock, Mail, MessageCircle, Phone, QrCode, ShieldCheck } from "lucide-react";
 import logo from "@/assets/logo-horizontal.png.asset.json";
 import { PENDING, settingsQuery } from "@/lib/store-data";
+import { MEDICINES_ENABLED } from "@/lib/store-mode";
 
 export function Footer() {
   const { data: s } = useQuery(settingsQuery);
@@ -48,9 +49,11 @@ export function Footer() {
           <p>
             <strong>{s?.legal_name ?? "G. M. Franco Drogaria"}</strong> (Drogaria Franco) — CNPJ {s?.cnpj ?? "04.574.777/0001-10"} — {s?.address ?? PENDING}
           </p>
-          <p>
-            Farmacêutico(a) responsável: {v(s?.pharmacist)} — CRF: {v(s?.crf)}
-          </p>
+          {MEDICINES_ENABLED && (
+            <p>
+              Farmacêutico(a) responsável: {v(s?.pharmacist)} — CRF: {v(s?.crf)}
+            </p>
+          )}
           <p className="mt-2">© {new Date().getFullYear()} Drogaria Franco. Imagens meramente ilustrativas. Preços e condições válidos para o site.</p>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import logo from "@/assets/logo-horizontal.png.asset.json";
 import { useCart } from "@/lib/cart";
 import { categoriesQuery, settingsQuery, type Category } from "@/lib/store-data";
+import { storeCategories } from "@/lib/store-mode";
 import { useAuthUser } from "@/lib/auth";
 import { SearchBox } from "./SearchBox";
 
@@ -59,7 +60,7 @@ export function Header() {
   const cart = useCart();
   const user = useAuthUser();
   const { data: cats = [] } = useQuery(categoriesQuery);
-  const roots = cats.filter((c) => !c.parent_id && c.active);
+  const roots = storeCategories(cats).filter((c) => !c.parent_id && c.active);
   const [drawer, setDrawer] = useState(false);
 
   return (

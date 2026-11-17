@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { effectivePrice, discountPercent } from "@/lib/pricing";
 import type { StoreProduct } from "@/lib/store-data";
+import { MEDICINES_ENABLED } from "@/lib/store-mode";
 import { ProductCard, ProductCardSkeleton } from "./ProductCard";
 
 const SORTS = {
@@ -33,7 +34,7 @@ export function ProductGrid({ products, loading }: { products: StoreProduct[]; l
     <div>
       <div className="mb-4 flex flex-wrap items-center gap-3 text-sm">
         <span className="text-muted-foreground">{list.length} produto(s)</span>
-        <label className="flex items-center gap-1"><input type="checkbox" checked={generic} onChange={(e) => setGeneric(e.target.checked)} /> Genérico</label>
+        {MEDICINES_ENABLED && <label className="flex items-center gap-1"><input type="checkbox" checked={generic} onChange={(e) => setGeneric(e.target.checked)} /> Genérico</label>}
         <label className="flex items-center gap-1"><input type="checkbox" checked={promo} onChange={(e) => setPromo(e.target.checked)} /> Com desconto</label>
         <label className="flex items-center gap-1"><input type="checkbox" checked={stock} onChange={(e) => setStock(e.target.checked)} /> Em estoque</label>
         <select value={sort} onChange={(e) => setSort(e.target.value as keyof typeof SORTS)} className="ml-auto rounded-lg border px-2 py-1.5">

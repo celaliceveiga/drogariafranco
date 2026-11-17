@@ -3,20 +3,21 @@ import { useQuery } from "@tanstack/react-query";
 import useEmblaCarousel from "embla-carousel-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { icons, ShieldCheck, Store, Truck, Stethoscope, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { icons, BadgeCheck, ShieldCheck, Store, Truck, Stethoscope, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { bannersQuery, categoriesQuery, productsByIdsQuery, settingsQuery, showcaseProductsQuery, showcasesQuery } from "@/lib/store-data";
 import { ProductRail } from "@/components/store/ProductRail";
 import { whatsappLink } from "@/components/store/Extras";
 import { getRecentlyViewed } from "@/lib/cart";
+import { MEDICINES_ENABLED, storeCategories } from "@/lib/store-mode";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Drogaria Franco — Farmácia online com preço baixo" },
-      { name: "description", content: "Compre medicamentos, genéricos, dermocosméticos e itens de higiene na Drogaria Franco. Retire na loja ou receba em casa." },
-      { property: "og:title", content: "Drogaria Franco — Farmácia online" },
-      { property: "og:description", content: "Medicamentos, genéricos e dermocosméticos com ofertas toda semana." },
+      { title: MEDICINES_ENABLED ? "Drogaria Franco — Farmácia online com preço baixo" : "Drogaria Franco — Dermocosméticos e beleza com preço baixo" },
+      { name: "description", content: MEDICINES_ENABLED ? "Compre medicamentos, genéricos, dermocosméticos e itens de higiene na Drogaria Franco. Retire na loja ou receba em casa." : "Compre dermocosméticos, cosméticos, maquiagem e itens de higiene na Drogaria Franco. Retire na loja ou receba em casa." },
+      { property: "og:title", content: MEDICINES_ENABLED ? "Drogaria Franco — Farmácia online" : "Drogaria Franco — Dermocosméticos e beleza" },
+      { property: "og:description", content: MEDICINES_ENABLED ? "Medicamentos, genéricos e dermocosméticos com ofertas toda semana." : "Dermocosméticos, cosméticos e beleza com ofertas toda semana." },
     ],
   }),
   component: Home,
@@ -30,7 +31,7 @@ function Home() {
       <Showcases />
       <RecentlyViewed />
       <Benefits />
-      <PharmacistBlock />
+      {MEDICINES_ENABLED && <PharmacistBlock />}
       <Newsletter />
     </>
   );
@@ -76,7 +77,7 @@ function BannerCarousel() {
 
 function CategoryShortcuts() {
   const { data: cats = [] } = useQuery(categoriesQuery);
-  const roots = cats.filter((c) => !c.parent_id && c.active);
+  const roots = storeCategories(cats).filter((c) => !c.parent_id && c.active);
   return (
     <section className="mx-auto max-w-7xl px-4 py-8">
       <div className="scrollbar-none -mx-4 flex gap-4 overflow-x-auto px-4 md:justify-center md:gap-8">
@@ -102,7 +103,8 @@ function Showcase({ sc }: { sc: { id: string; title: string; rule: string; rule_
 }
 
 function Showcases() {
-  const { data: list = [] } = useQuery(showcasesQuery);
+  const { data: all = [] } = useQuery(showcasesQuery);
+  const list = MEDICINES_ENABLED ? all : all.filter((sc) => sc.rule !== "generic");
   return (
     <>
       {list.map((sc, i) => (
@@ -126,7 +128,9 @@ function Benefits() {
     { icon: Truck, t: "Entrega rápida", d: "Receba em casa" },
     { icon: Store, t: "Retire na loja", d: "Sem custo de frete" },
     { icon: ShieldCheck, t: "Pagamento seguro", d: "Pix e cartão" },
-    { icon: Stethoscope, t: "Atendimento farmacêutico", d: "Tire suas dúvidas" },
+    MEDICINES_ENABLED
+      ? { icon: Stethoscope, t: "Atendimento farmacêutico", d: "Tire suas dúvidas" }
+      : { icon: BadgeCheck, t: "Produtos originais", d: "Marcas reconhecidas" },
   ];
   return (
     <section className="mx-auto max-w-7xl px-4 py-8">

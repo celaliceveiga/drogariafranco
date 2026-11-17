@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { brl, effectivePrice } from "@/lib/pricing";
 import { categoriesQuery } from "@/lib/store-data";
+import { sellable, storeCategories } from "@/lib/store-mode";
 
 const norm = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
@@ -14,7 +15,8 @@ export function SearchBox() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const ref = useRef<HTMLDivElement>(null);
-  const { data: cats = [] } = useQuery(categoriesQuery);
+  const { data: allCats = [] } = useQuery(categoriesQuery);
+  const cats = storeCategories(allCats);
 
   useEffect(() => {
     const t = setTimeout(() => setDebounced(q.trim()), 200);
@@ -31,8 +33,9 @@ export function SearchBox() {
     queryKey: ["search-suggest", debounced],
     enabled: debounced.length >= 2,
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("search_products", { q: debounced, lim: 6 });
+      const { data: found, error } = await supabase.rpc("search_products", { q: debounced, lim: 12 });
       if (error) throw error;
+      const data = sellable(found).slice(0, 6);
       const ids = data.map((p) => p.id);
       const { data: imgs } = await supabase.from("product_images").select("product_id,url,sort_order").in("product_id", ids.length ? ids : ["00000000-0000-0000-0000-000000000000"]);
       return data.map((p) => ({ ...p, img: imgs?.filter((i) => i.product_id === p.id).sort((a, b) => a.sort_order - b.sort_order)[0]?.url }));

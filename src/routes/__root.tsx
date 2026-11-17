@@ -1,3 +1,4 @@
+import { MEDICINES_ENABLED } from "@/lib/store-mode";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -74,8 +75,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Drogaria Franco — Farmácia online" },
-      { name: "description", content: "Drogaria Franco: medicamentos, dermocosméticos e higiene com preço baixo e entrega rápida." },
+      { title: MEDICINES_ENABLED ? "Drogaria Franco — Farmácia online" : "Drogaria Franco — Dermocosméticos e beleza" },
+      { name: "description", content: MEDICINES_ENABLED ? "Drogaria Franco: medicamentos, dermocosméticos e higiene com preço baixo e entrega rápida." : "Drogaria Franco: dermocosméticos, cosméticos e higiene com preço baixo e entrega rápida." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#069DAE" },

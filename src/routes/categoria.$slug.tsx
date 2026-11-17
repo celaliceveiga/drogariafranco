@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { categoriesQuery, PRODUCT_COLS, type StoreProduct } from "@/lib/store-data";
 import { ProductGrid } from "@/components/store/ProductGrid";
+import { sellable, storeCategories } from "@/lib/store-mode";
 
 export const Route = createFileRoute("/categoria/$slug")({
   head: ({ params }) => ({
@@ -18,7 +19,8 @@ export const Route = createFileRoute("/categoria/$slug")({
 
 function CategoryPage() {
   const { slug } = Route.useParams();
-  const { data: cats = [] } = useQuery(categoriesQuery);
+  const { data: allCats = [], isLoading: catsLoading } = useQuery(categoriesQuery);
+  const cats = storeCategories(allCats);
   const cat = cats.find((c) => c.slug === slug);
   const parent = cat?.parent_id ? cats.find((c) => c.id === cat.parent_id) : null;
   const subs = cat ? cats.filter((c) => c.parent_id === cat.id) : [];
@@ -35,7 +37,7 @@ function CategoryPage() {
         .in("product_categories.category_id", ids);
       if (error) throw error;
       const seen = new Set<string>();
-      return (data as unknown as StoreProduct[]).filter((p) => (seen.has(p.id) ? false : (seen.add(p.id), true)));
+      return sellable(data as unknown as StoreProduct[]).filter((p) => (seen.has(p.id) ? false : (seen.add(p.id), true)));
     },
   });
 
@@ -46,7 +48,7 @@ function CategoryPage() {
         {parent && <> / <Link to="/categoria/$slug" params={{ slug: parent.slug }}>{parent.name}</Link></>}
         {cat && <> / <span className="text-foreground">{cat.name}</span></>}
       </nav>
-      <h1 className="mb-4 text-2xl font-extrabold text-secondary">{cat?.name ?? "Categoria"}</h1>
+      <h1 className="mb-4 text-2xl font-extrabold text-secondary">{cat?.name ?? (catsLoading ? "Categoria" : "Categoria não encontrada")}</h1>
       {subs.length > 0 && (
         <div className="scrollbar-none mb-5 flex gap-2 overflow-x-auto">
           {subs.map((s) => (
@@ -56,7 +58,7 @@ function CategoryPage() {
           ))}
         </div>
       )}
-      <ProductGrid products={data} loading={isLoading || !cat} />
+      <ProductGrid products={data} loading={catsLoading || (!!cat && isLoading)} />
     </div>
   );
 }
