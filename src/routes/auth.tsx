@@ -71,7 +71,7 @@ function AuthPage() {
         {mode === "signup" && (
           <label className="flex items-start gap-2 text-xs text-muted-foreground">
             <input type="checkbox" checked={terms} onChange={(e) => setTerms(e.target.checked)} className="mt-0.5" />
-            Li e aceito os Termos de uso e a Política de privacidade (LGPD).
+            <span>Li e aceito os <a href="/termos-de-uso" target="_blank" rel="noreferrer" className="font-semibold text-primary-strong underline">Termos de uso</a> e a Política de privacidade (LGPD).</span>
           </label>
         )}
         <button disabled={busy} className="h-11 w-full rounded-lg bg-primary-strong font-bold text-primary-foreground">

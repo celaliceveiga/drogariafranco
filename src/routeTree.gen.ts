@@ -16,6 +16,7 @@ import { Route as BuscaRouteImport } from './routes/busca'
 import { Route as ContaRouteImport } from './routes/conta'
 import { Route as QuemSomosRouteImport } from './routes/quem-somos'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as TermosDeUsoRouteImport } from './routes/termos-de-uso'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminCategoriasRouteImport } from './routes/admin.categorias'
 import { Route as CategoriaSlugRouteImport } from './routes/categoria.$slug'
@@ -58,6 +59,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TermosDeUsoRoute = TermosDeUsoRouteImport.update({
+  id: '/termos-de-uso',
+  path: '/termos-de-uso',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -97,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/conta': typeof ContaRoute
   '/quem-somos': typeof QuemSomosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/termos-de-uso': typeof TermosDeUsoRoute
   '/admin/categorias': typeof AdminCategoriasRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
   '/produto/$slug': typeof ProdutoSlugRoute
@@ -111,6 +118,7 @@ export interface FileRoutesByTo {
   '/conta': typeof ContaRoute
   '/quem-somos': typeof QuemSomosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/termos-de-uso': typeof TermosDeUsoRoute
   '/admin/categorias': typeof AdminCategoriasRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
   '/produto/$slug': typeof ProdutoSlugRoute
@@ -127,6 +135,7 @@ export interface FileRoutesById {
   '/conta': typeof ContaRoute
   '/quem-somos': typeof QuemSomosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/termos-de-uso': typeof TermosDeUsoRoute
   '/admin/categorias': typeof AdminCategoriasRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
   '/produto/$slug': typeof ProdutoSlugRoute
@@ -144,6 +153,7 @@ export interface FileRouteTypes {
     | '/conta'
     | '/quem-somos'
     | '/reset-password'
+    | '/termos-de-uso'
     | '/admin/categorias'
     | '/categoria/$slug'
     | '/produto/$slug'
@@ -158,6 +168,7 @@ export interface FileRouteTypes {
     | '/conta'
     | '/quem-somos'
     | '/reset-password'
+    | '/termos-de-uso'
     | '/admin/categorias'
     | '/categoria/$slug'
     | '/produto/$slug'
@@ -173,6 +184,7 @@ export interface FileRouteTypes {
     | '/conta'
     | '/quem-somos'
     | '/reset-password'
+    | '/termos-de-uso'
     | '/admin/categorias'
     | '/categoria/$slug'
     | '/produto/$slug'
@@ -189,6 +201,7 @@ export interface RootRouteChildren {
   ContaRoute: typeof ContaRoute
   QuemSomosRoute: typeof QuemSomosRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  TermosDeUsoRoute: typeof TermosDeUsoRoute
   CategoriaSlugRoute: typeof CategoriaSlugRoute
   ProdutoSlugRoute: typeof ProdutoSlugRoute
 }
@@ -242,6 +255,13 @@ declare module '@tanstack/react-router' {
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/termos-de-uso': {
+      id: '/termos-de-uso'
+      path: '/termos-de-uso'
+      fullPath: '/termos-de-uso'
+      preLoaderRoute: typeof TermosDeUsoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -313,6 +333,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContaRoute: ContaRoute,
   QuemSomosRoute: QuemSomosRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  TermosDeUsoRoute: TermosDeUsoRoute,
   CategoriaSlugRoute: CategoriaSlugRoute,
   ProdutoSlugRoute: ProdutoSlugRoute,
 }

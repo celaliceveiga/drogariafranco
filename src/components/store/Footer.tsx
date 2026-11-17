@@ -19,7 +19,7 @@ export function Footer() {
           <ul className="space-y-2 text-sm opacity-90">
             <li><Link to="/quem-somos" className="hover:underline">Quem somos</Link></li>
             <li><Link to="/quem-somos" className="hover:underline">Política de privacidade</Link></li>
-            <li><Link to="/quem-somos" className="hover:underline">Termos de uso</Link></li>
+            <li><Link to="/termos-de-uso" className="hover:underline">Termos de uso</Link></li>
             <li><Link to="/quem-somos" className="hover:underline">Trocas e devoluções</Link></li>
             <li><Link to="/quem-somos" className="hover:underline">Política de entrega</Link></li>
           </ul>
@@ -49,7 +49,7 @@ export function Footer() {
             <strong>{s?.legal_name ?? "G. M. Franco Drogaria"}</strong> (Drogaria Franco) — CNPJ {s?.cnpj ?? "04.574.777/0001-10"} — {s?.address ?? PENDING}
           </p>
           <p>
-            Farmacêutico(a) responsável: {v(s?.pharmacist)} — CRF: {v(s?.crf)} — AFE/ANVISA: {v(s?.afe)} — Licença sanitária: {v(s?.sanitary_license)}
+            Farmacêutico(a) responsável: {v(s?.pharmacist)} — CRF: {v(s?.crf)}
           </p>
           <p className="mt-2">© {new Date().getFullYear()} Drogaria Franco. Imagens meramente ilustrativas. Preços e condições válidos para o site.</p>
         </div>

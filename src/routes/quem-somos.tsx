@@ -60,8 +60,6 @@ function About() {
       k: "Farmacêutico(a) responsável",
       v: s?.pharmacist ? `${s.pharmacist} — CRF ${s.crf ?? PENDING}` : null,
     },
-    { icon: BadgeCheck, k: "AFE (ANVISA)", v: s?.afe },
-    { icon: BadgeCheck, k: "Licença sanitária", v: s?.sanitary_license },
   ];
   return (
     <>
